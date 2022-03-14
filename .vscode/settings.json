@@ -1,0 +1,35 @@
+{
+  "makefile.extensionOutputFolder": "./.vscode",
+  "C_Cpp.default.includePath": [
+    "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include",
+    "firmware/src/config/default"
+  ],
+  "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+  "files.associations": {
+    ".cflintrc": "json",
+    "*.src": "z80-macroasm",
+    "*.z80": "z80-macroasm",
+    "definitions.h": "c",
+    "sys_fs_media_manager.h": "c",
+    "sys_fs_fat_interface.h": "c",
+    "ff.h": "c",
+    "diskio.h": "c",
+    "stdbool.h": "c",
+    "stddef.h": "c",
+    "usb_host_scsi.h": "c",
+    "drv_usbfs.h": "c",
+    "plib_usbfs.h": "c",
+    "usbfs_registers.h": "c",
+    "plib_usbfs_header.h": "c",
+    "stdlib.h": "c",
+    "cstdlib": "c"
+  },
+  "makefile.makePath": "C:/Program Files/Microchip/MPLABX/v5.45/gnuBins/GnuWin32/bin/make.exe",
+  "makefile.makefilePath": "firmware/rd52a-ubw32.X/nbproject/Makefile-default.mk",
+  "makefile.makeDirectory": "firmware/rd52a-ubw32.X",
+  "C_Cpp.default.systemIncludePath": [
+    "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include",
+    "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include/musl",
+    "C:/Program Files/Microchip/xc32/v4.00/lib/gcc/pic32mx/**"
+  ]
+}
