@@ -80,12 +80,29 @@ extern "C" {
 // *****************************************************************************
 // *****************************************************************************
 
+#define SYS_DEBUG_ENABLE
+#define SYS_DEBUG_GLOBAL_ERROR_LEVEL       SYS_ERROR_DEBUG
+#define SYS_DEBUG_BUFFER_DMA_READY
+#define SYS_DEBUG_USE_CONSOLE
+
+
+/* TIME System Service Configuration Options */
+#define SYS_TIME_INDEX_0                            (0)
+#define SYS_TIME_MAX_TIMERS                         (5)
+#define SYS_TIME_HW_COUNTER_WIDTH                   (32)
+#define SYS_TIME_HW_COUNTER_PERIOD                  (4294967295U)
+#define SYS_TIME_HW_COUNTER_HALF_PERIOD             (SYS_TIME_HW_COUNTER_PERIOD>>1)
+#define SYS_TIME_CPU_CLOCK_FREQUENCY                (80000000)
+#define SYS_TIME_COMPARE_UPDATE_EXECUTION_CYCLES    (460)
+
+
 /* File System Service Configuration */
 
 #define SYS_FS_MEDIA_NUMBER               1
 #define SYS_FS_VOLUME_NUMBER              1
 
-#define SYS_FS_AUTOMOUNT_ENABLE           false
+#define SYS_FS_AUTOMOUNT_ENABLE           true
+#define SYS_FS_CLIENT_NUMBER              1
 #define SYS_FS_MAX_FILES                  1
 #define SYS_FS_MAX_FILE_SYSTEM_TYPE       1
 #define SYS_FS_MEDIA_MAX_BLOCK_SIZE       512
@@ -103,15 +120,23 @@ extern "C" {
 
 
 
+#define SYS_FS_MEDIA_TYPE_IDX0 				SYS_FS_MEDIA_TYPE_MSD
+#define SYS_FS_TYPE_IDX0 					FAT
+					
+#define SYS_FS_MEDIA_IDX0_MOUNT_NAME_VOLUME_IDX0 			"/mnt/myDrive1"
+#define SYS_FS_MEDIA_IDX0_DEVICE_NAME_VOLUME_IDX0			"/dev/sda1"
+								
 
-/* TIME System Service Configuration Options */
-#define SYS_TIME_INDEX_0                            (0)
-#define SYS_TIME_MAX_TIMERS                         (5)
-#define SYS_TIME_HW_COUNTER_WIDTH                   (32)
-#define SYS_TIME_HW_COUNTER_PERIOD                  (4294967295U)
-#define SYS_TIME_HW_COUNTER_HALF_PERIOD             (SYS_TIME_HW_COUNTER_PERIOD>>1)
-#define SYS_TIME_CPU_CLOCK_FREQUENCY                (80000000)
-#define SYS_TIME_COMPARE_UPDATE_EXECUTION_CYCLES    (460)
+#define SYS_CONSOLE_DEVICE_MAX_INSTANCES   			1
+#define SYS_CONSOLE_UART_MAX_INSTANCES 	   			1
+#define SYS_CONSOLE_USB_CDC_MAX_INSTANCES 	   		0
+#define SYS_CONSOLE_PRINT_BUFFER_SIZE        		200
+
+
+#define SYS_CONSOLE_INDEX_0                       0
+
+
+
 
 
 
@@ -127,6 +152,14 @@ extern "C" {
 // Section: Middleware & Other Library Configuration
 // *****************************************************************************
 // *****************************************************************************
+/* Number of MSD Function driver instances in the application */
+#define USB_HOST_MSD_INSTANCES_NUMBER         1
+
+/* Number of Logical Units */
+#define USB_HOST_SCSI_INSTANCES_NUMBER        1
+#define USB_HOST_MSD_LUN_NUMBERS              1
+
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: USB Host Layer Configuration
@@ -151,14 +184,6 @@ extern "C" {
 
 /* Provides Host pipes number */
 #define USB_HOST_PIPES_NUMBER                               10
-
-
-/* Number of MSD Function driver instances in the application */
-#define USB_HOST_MSD_INSTANCES_NUMBER         1
-
-/* Number of Logical Units */
-#define USB_HOST_SCSI_INSTANCES_NUMBER        1
-#define USB_HOST_MSD_LUN_NUMBERS              1
 
 
 /*** USB Driver Configuration ***/

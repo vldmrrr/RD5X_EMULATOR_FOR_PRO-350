@@ -1,26 +1,26 @@
 /*******************************************************************************
-  MPLAB Harmony Application Header File
-
-  Company:
-    Microchip Technology Inc.
-
-  File Name:
-    app.h
-
-  Summary:
-    This header file provides prototypes and definitions for the application.
-
-  Description:
-    This header file provides function prototypes and data type definitions for
-    the application.  Some of these are required by the system (such as the
-    "APP_Initialize" and "APP_Tasks" prototypes) and some of them are only used
-    internally by the application (such as the "APP_STATES" definition).  Both
-    are defined here for convenience.
-*******************************************************************************/
+ MPLAB Harmony Application Header File
+ 
+ Company:
+ Microchip Technology Inc.
+ 
+ File Name:
+ app.h
+ 
+ Summary:
+ This header file provides prototypes and definitions for the application.
+ 
+ Description:
+ This header file provides function prototypes and data type definitions for
+ the application.  Some of these are required by the system (such as the
+ "APP_Initialize" and "APP_Tasks" prototypes) and some of them are only used
+ internally by the application (such as the "APP_STATES" definition).  Both
+ are defined here for convenience.
+ *******************************************************************************/
 
 #ifndef _APP_H
 #define _APP_H
-
+//#define TRACE_CTI
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
@@ -32,145 +32,135 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include "configuration.h"
+#include "definitions.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 
 extern "C" {
-
+    
 #endif
-// DOM-IGNORE-END
+    // DOM-IGNORE-END
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: Type Definitions
-// *****************************************************************************
-// *****************************************************************************
-
-// *****************************************************************************
-/* Application states
-
-  Summary:
-    Application states enumeration
-
-  Description:
-    This enumeration defines the valid application states.  These states
-    determine the behavior of the application at various times.
-*/
-
-typedef enum
-{
-    /* Application's state machine's initial state. */
-    APP_STATE_INIT=0,
-    APP_STATE_SERVICE_TASKS,
-    /* TODO: Define states used by the application state machine. */
-
-} APP_STATES;
-
-
-// *****************************************************************************
-/* Application Data
-
-  Summary:
-    Holds application data
-
-  Description:
-    This structure holds the application's data.
-
-  Remarks:
-    Application strings and buffers are be defined outside this structure.
- */
-
-typedef struct
-{
-    /* The application's current state */
-    APP_STATES state;
-
-    /* TODO: Define any additional data used by the application. */
-
-} APP_DATA;
-
-// *****************************************************************************
-// *****************************************************************************
-// Section: Application Callback Routines
-// *****************************************************************************
-// *****************************************************************************
-/* These routines are called by drivers when certain events occur.
-*/
-
-// *****************************************************************************
-// *****************************************************************************
-// Section: Application Initialization and State Machine Functions
-// *****************************************************************************
-// *****************************************************************************
-
-/*******************************************************************************
-  Function:
-    void APP_Initialize ( void )
-
-  Summary:
-     MPLAB Harmony application initialization routine.
-
-  Description:
-    This function initializes the Harmony application.  It places the
-    application in its initial state and prepares it to run so that its
-    APP_Tasks function can be called.
-
-  Precondition:
-    All other system initialization routines should be called before calling
-    this routine (in "SYS_Initialize").
-
-  Parameters:
-    None.
-
-  Returns:
-    None.
-
-  Example:
-    <code>
-    APP_Initialize();
-    </code>
-
-  Remarks:
-    This routine must be called from the SYS_Initialize function.
-*/
-
-void APP_Initialize ( void );
+#define IMAGE_CFG "/rdimage.cfg"
+    typedef enum
+    {
+        APP_STATE_INIT=0,
+        APP_STATE_RESET,
+        APP_STATE_WORK,
+                
+    } APP_STATES;
+    
+    typedef enum {
+        CTI_STATE_IDLE = 0,
+        CTI_STATE_RD,
+        CTI_STATE_WR,
+        CTI_STATE_RD_DONE,
+        CTI_STATE_WR_DONE,
+    } CTI_STATE;
+    
+    // *****************************************************************************
+    /* Application Data
+     
+     Summary:
+     Holds application data
+     
+     Description:
+     This structure holds the application's data.
+     
+     Remarks:
+     Application strings and buffers are be defined outside this structure.
+     */
+    
+    typedef struct
+    {
+        /* The application's current state */
+        APP_STATES state;
+        bool deviceIsConnected;
+        bool imageTested;
+        uintptr_t fileHandle;
+        int heads;
+        int cylinders;
+        int sectors;
+    } APP_DATA;
+extern APP_DATA appData;
 
 
-/*******************************************************************************
-  Function:
-    void APP_Tasks ( void )
+#define START_REG_ADDR 0174000
+#define REG_ADDR_RANGE 010
+#define REG_ERR_PRECOMP_ADDR 2
+#define REG_DATA 4
+#define REG_STA2_ADDR 7
+#define REG_STATUS_ADDR 8
+#define STATUS_OPEND_MASK 1
+#define OPEND_PENDING (*reg_R_STAT & STATUS_OPEND_MASK)
+#define OPEND_CLEAR() (*reg_R_STAT&= ~STATUS_OPEND_MASK,IRQA_Set())
+#define OPEND_SET() (*reg_R_STAT = (*reg_R_STAT&~STATUS_BUSY_MASK)|STATUS_OPEND_MASK,IRQA_Clear())
+#define STATUS_RESET_MASK (1<<3)
+#define RESET_PENDING (*reg_W_INIT & STATUS_RESET_MASK)
+#define STATUS_DRQ_MASK (1<<7)
+#define DRQ_PENDING (*reg_R_STAT & STATUS_DRQ_MASK)
+#define DRQ_SET() (*reg_R_STAT |= STATUS_DRQ_MASK,*reg_R_STA2 |= STA2_DRQ,IRQB_Clear())
+#define DRQ_CLEAR() (*reg_R_STAT &= ~STATUS_DRQ_MASK,*reg_R_STA2 &= ~STA2_DRQ, IRQB_Set())
+#define STATUS_BUSY_MASK (1<<15)
+#define BUSY_SET() (*reg_R_STAT |= STATUS_BUSY_MASK)
+#define BUSY_CLEAR() (*reg_R_STAT &= ~STATUS_BUSY_MASK)
+    extern uint16_t r_regs[9];
+    extern uint16_t regs_wmsk[9];
+    extern uint16_t* const reg_R_ID;
+    extern uint16_t* const reg_R_ERR;
+    extern uint16_t* const reg_R_REV_SEC_ID;
+    extern uint16_t* const reg_R_DATA;
+    extern uint16_t* const reg_R_CYL_ID;
+    extern uint16_t* const reg_R_HEAD_ID;
+    extern uint16_t* const reg_R_STA2;
+    extern uint16_t* const reg_R_STAT;
+    extern uint16_t w_regs[9];
+    extern uint16_t* const reg_W_PCOMP;
+    extern uint16_t* const reg_W_REV_SEC_ID;
+    extern uint16_t* const reg_W_DATA;
+    extern uint16_t* const reg_W_CYL_ID;
+    extern uint16_t* const reg_W_HEAD_ID;
+    extern uint16_t* const reg_W_CMD;
+    extern uint16_t* const reg_W_INIT;
+    
+    extern uint16_t sector_buffer[256];
+    extern uint8_t sector_buffer_idx;
+    
+#define LOG_PIPE_LEN 256
+    extern uint32_t log_pipe[LOG_PIPE_LEN];
+    extern volatile uint8_t log_pipe_head;
+    extern volatile uint8_t log_pipe_len;
 
-  Summary:
-    MPLAB Harmony Demo application tasks function
+#define ERR_DM (1<<8)
+#define ERR_TR0 (1<<9)
+#define ERR_ILL_CMD (1<<10)
+#define ERR_ID (1<<12)
+#define ERR_CRC_ID (1<<13)
+#define ERR_CRC_DATA (1<<14)
 
-  Description:
-    This routine is the Harmony Demo application's tasks function.  It
-    defines the application's state machine and core logic.
+#define CMD_RESTORE 0x10
+#define CMD_READ 0x20
+#define CMD_WRITE 0x30
+#define CMD_FORMAT 0x50
 
-  Precondition:
-    The system and application initialization ("SYS_Initialize") should be
-    called before calling this.
+#define STA2_ERR (1<<8)
+#define STA2_DRQ (1<<11)
+#define STA2_SEEK_DONE (1<<12)
+#define STA2_WR_FLT (1<<13)
+#define STA2_READY (1<<14)
 
-  Parameters:
-    None.
+#define ERR_SET(e) (*reg_R_STA2 |= STA2_ERR, *reg_R_ERR |= e)
+#define ERR_CLEAR() (*reg_R_STA2 &= ~STA2_ERR, *reg_R_ERR &= 0xff)
+#define DR_READY_SET() (*reg_R_STA2 |= STA2_READY| STA2_SEEK_DONE)
+#define DR_READY_CLEAR() (*reg_R_STA2 &= ~STA2_READY)
 
-  Returns:
-    None.
-
-  Example:
-    <code>
-    APP_Tasks();
-    </code>
-
-  Remarks:
-    This routine must be called from SYS_Tasks() routine.
- */
-
-void APP_Tasks( void );
-
-//DOM-IGNORE-BEGIN
+    void APP_Initialize ( void );
+    
+    
+    void APP_Tasks( void );
+    
+    //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
 }
 #endif

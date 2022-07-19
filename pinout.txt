@@ -1,0 +1,34 @@
+PIN  CTI    Signal  Port    BB-CTI  BB-UBW  CD4042
+1    4       gnd                             8
+2    2       5v                              16, 6
+4    8       DA13    D13    E       CP
+5    10      DA12    D12    F       CO
+6    12      DA11    D11    G       CH
+7    14      DA10    D10    H       CG
+8    16      DA9     D9     I       CF
+9    18      DA8     D8     J       CE
+10   20      DA7     D7     K       CT
+11   22      DA6     D6     L       CS
+12   24      DA5     D5     M       CR
+13   26      DA4     D4     N       CQ      14
+                     G15            CI2     15
+14   28      DA3     D3     O       CN      4
+                     G14            CC2     3
+15   30      DA2     D2     P       CM      7
+                     G13            CE2     9
+16   32      DA1     D1     Q       CL      13
+                     G12            CD2     12
+17   34      DA0     D0     R       CI
+18   7       DA15    D15    S       LO
+19   37      DS      G9     T       LJ2
+20   39      AS      G14    U       CC2     5
+21   9       DA14    D14    V       LP
+22   13      RPLY    F0     W       CU
+23   17      MDEN    F1     X       CV
+24   19      WR      G1     Y       CW
+25   25      SDEN    G0     Z       CX
+26   29      SS      G8     A2      LL2
+27   31      IRQB    E4     B2      CH2
+28   33      IRQA    E5     C2      CJ2
+29   5       init    G7     D2      LM2
+     35      OPRES   (short to GND on CTI 27)

@@ -2,6 +2,15 @@ format_version: v1.0
 type: UniqueComponent
 attributes: {id: usb_host_msd}
 children:
+- type: Symbols
+  children:
+  - type: Integer
+    attributes: {id: CONFIG_USB_HOST_MSD_NUMBER_OF_INSTANCES}
+    children:
+    - type: Values
+      children:
+      - type: User
+        attributes: {value: '1'}
 - type: Attachments
   children:
   - type: DirectCapability
@@ -18,4 +27,4 @@ children:
         children:
         - {type: Value, value: sys_fs_DRV_MEDIA_dependency}
 - type: ElementPosition
-  attributes: {x: '14', y: '208', id: usb_host_msd}
+  attributes: {x: '18', y: '203', id: usb_host_msd}

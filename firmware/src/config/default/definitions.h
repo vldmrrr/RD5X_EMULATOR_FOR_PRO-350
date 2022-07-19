@@ -40,6 +40,7 @@
 #ifndef DEFINITIONS_H
 #define DEFINITIONS_H
 
+#undef _WIN32
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
@@ -48,26 +49,29 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "peripheral/coretimer/plib_coretimer.h"
-#include "usb/usb_chapter_9.h"
-#include "usb/usb_host.h"
 #include "usb/usb_msd.h"
 #include "usb/usb_host_msd.h"
 #include "usb/usb_host_scsi.h"
+#include "peripheral/clk/plib_clk.h"
+#include "peripheral/gpio/plib_gpio.h"
+#include "peripheral/evic/plib_evic.h"
+#include "system/time/sys_time.h"
+#include "peripheral/coretimer/plib_coretimer.h"
+#include "usb/usb_chapter_9.h"
+#include "usb/usb_host.h"
+#include "peripheral/uart/plib_uart1.h"
 #include "system/fs/sys_fs.h"
 #include "system/fs/sys_fs_media_manager.h"
 #include "system/fs/sys_fs_fat_interface.h"
 #include "system/fs/fat_fs/file_system/ff.h"
 #include "system/fs/fat_fs/file_system/ffconf.h"
 #include "system/fs/fat_fs/hardware_access/diskio.h"
-#include "peripheral/clk/plib_clk.h"
-#include "peripheral/gpio/plib_gpio.h"
-#include "peripheral/evic/plib_evic.h"
 #include "driver/usb/usbfs/drv_usbfs.h"
+#include "system/console/sys_console.h"
+#include "system/console/src/sys_console_uart_definitions.h"
 #include "system/int/sys_int.h"
 #include "osal/osal.h"
 #include "system/debug/sys_debug.h"
-#include "system/time/sys_time.h"
 #include "app.h"
 
 
@@ -193,11 +197,15 @@ Remarks:
 
 typedef struct
 {
+    SYS_MODULE_OBJ  sysDebug;
+
+    SYS_MODULE_OBJ  sysTime;
 	SYS_MODULE_OBJ  usbHostObject0;
 
 	SYS_MODULE_OBJ  drvUSBFSObject;
 
-    SYS_MODULE_OBJ  sysTime;
+    SYS_MODULE_OBJ  sysConsole0;
+
 
 } SYSTEM_OBJECTS;
 

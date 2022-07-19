@@ -60,4 +60,4 @@ children:
         children:
         - {type: Value, value: CORE_TIMER_TMR}
 - type: ElementPosition
-  attributes: {x: '507', y: '166', id: sys_time}
+  attributes: {x: '507', y: '164', id: sys_time}

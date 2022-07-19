@@ -298,7 +298,7 @@ void _USB_HOST_MSD_TransferTasks
                             }
                             transferIsDone = true;
                             msdResult = (USB_HOST_MSD_RESULT)msdCSW->bCSWStatus;
-                            SYS_DEBUG_PRINT(SYS_ERROR_INFO, "\n\r CSW: bCSWStatus = 0x%X ", msdCSW->bCSWStatus);
+                            //SYS_DEBUG_PRINT(SYS_ERROR_INFO, "\n\r CSW: bCSWStatus = 0x%X ", msdCSW->bCSWStatus);
                         }
                         else if (msdCSW->bCSWStatus == USB_MSD_CSW_STATUS_PHASE_ERROR)
                         {

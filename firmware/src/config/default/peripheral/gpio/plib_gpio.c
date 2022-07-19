@@ -43,14 +43,12 @@
 
 #include "plib_gpio.h"
 
-#define TOTAL_NUM_OF_INT_USED 4
+#define TOTAL_NUM_OF_INT_USED 2
 /* Array to store pin objects of each configured interrupt */
 GPIO_PIN_CALLBACK_OBJ cnPinObj[TOTAL_NUM_OF_INT_USED] =
     {
+        {.cnPin = CN9_PIN , .gpioPin = GPIO_PIN_RG7, .callback = NULL },
         {.cnPin = CN10_PIN , .gpioPin = GPIO_PIN_RG8, .callback = NULL },
-        {.cnPin = CN11_PIN , .gpioPin = GPIO_PIN_RG9, .callback = NULL },
-        {.cnPin = CN17_PIN , .gpioPin = GPIO_PIN_RF4, .callback = NULL },
-        {.cnPin = CN18_PIN , .gpioPin = GPIO_PIN_RF5, .callback = NULL },
     };
 
 
@@ -66,6 +64,7 @@ GPIO_PIN_CALLBACK_OBJ cnPinObj[TOTAL_NUM_OF_INT_USED] =
 */
 void GPIO_Initialize ( void )
 {
+    AD1PCFGSET = 0x20; /* Digital Mode Enable */
 
     /* PORTA Initialization */
 
@@ -77,13 +76,13 @@ void GPIO_Initialize ( void )
     ODCDSET = 0xffff; /* Open Drain Enable */
 
     /* PORTE Initialization */
-    ODCESET = 0x3; /* Open Drain Enable */
+    ODCESET = 0x3f; /* Open Drain Enable */
     LATE = 0x0; /* Initial Latch Value */
-    TRISECLR = 0x3; /* Direction Control */
+    TRISECLR = 0x3f; /* Direction Control */
 
     /* PORTF Initialization */
     ODCFSET = 0x1; /* Open Drain Enable */
-    LATF = 0x0; /* Initial Latch Value */
+    LATF = 0x1; /* Initial Latch Value */
     TRISFCLR = 0x1; /* Direction Control */
 
     /* PORTG Initialization */

@@ -1594,7 +1594,7 @@ void _USB_HOST_SCSI_DetachDetectTasks(int scsiObjIndex)
 
         case USB_HOST_SCSI_DETACH_TASK_STATE_TEST_UNIT_READY_SEND:
 
-            SYS_DEBUG_PRINT(SYS_ERROR_INFO, "\n\r USB_HOST_SCSI_DETACH_TASK_STATE_TEST_UNIT_READY_SEND");
+            //SYS_DEBUG_PRINT(SYS_ERROR_INFO, "\n\r USB_HOST_SCSI_DETACH_TASK_STATE_TEST_UNIT_READY_SEND");
             /* In this state, the driver prepares and send the Test Unit
              * ready command */
             _USB_HOST_SCSI_TestUnitReadyCommand(scsiObj->taskCommandObj.cdb);

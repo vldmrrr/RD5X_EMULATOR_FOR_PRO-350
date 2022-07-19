@@ -12,4 +12,4 @@ children:
       - type: Dynamic
         attributes: {id: usb_host, value: '1'}
 - type: ElementPosition
-  attributes: {x: '340', y: '59', id: usb_host}
+  attributes: {x: '341', y: '59', id: usb_host}

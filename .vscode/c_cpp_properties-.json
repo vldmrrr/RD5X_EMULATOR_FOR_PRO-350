@@ -1,0 +1,61 @@
+{
+    "env": {
+        "PATH": "C:/Program Files/Microchip/MPLABX/v5.45/mplab_platform/platform/../mplab_ide/modules/../../bin/;C:\\Program Files\\Microchip\\MPLABX\\v5.45\\gnuBins\\GnuWin32\\bin;${env:PATH}",
+"MP_JAVA_PATH": "C:\\Program Files\\Microchip\\MPLABX\\v5.45\\sys\\java\\zulu8.40.0.25-ca-fx-jre8.0.222-win_x64/bin/",
+"MP_CC": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin\\xc32-gcc.exe",
+"MP_CPPC": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin\\xc32-g++.exe",
+"MP_AS": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin\\xc32-as.exe",
+"MP_LD": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin\\xc32-ld.exe",
+"MP_AR": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin\\xc32-ar.exe",
+"DEP_GEN": "${MP_JAVA_PATH}java -jar 'C:/Program Files/Microchip/MPLABX/v5.45/mplab_platform/platform/../mplab_ide/modules/../../bin/extractobjectdependencies.jar'",
+"MP_CC_DIR": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin",
+"MP_CPPC_DIR": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin",
+"MP_AS_DIR": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin",
+"MP_LD_DIR": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin",
+"MP_AR_DIR": "C:\\Program Files\\Microchip\\xc32\\v4.00\\bin",
+"DFP_DIR": "C:/Users/vladimir/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259"
+},
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/firmware/src/**",
+                "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include/musl/**",
+                "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include/**",
+                "C:/Program Files/Microchip/xc32/v4.00/lib/gcc/pic32mx/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.17763.0",
+            "compilerPath": "C:/Program Files/Microchip/xc32/v4.00/bin/xc32-gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-arm",
+            "configurationProvider": "ms-vscode.makefile-tools",
+            "compilerArgs": [
+                "-g",
+                "-x c",
+                "-c",
+                "-mprocessor=32MX795F512L",
+                "-ffunction-sections ",
+                "-O1 ",
+                "-I\"../src\" ",
+                "-I\"../src/config/default\" ",
+                "-I\"../src/config/default/system/fs/fat_fs/file_system\"",
+                "-I\"../src/config/default/system/fs/fat_fs/hardware_access\"",
+                "-Werror ",
+                "-Wall",
+                "-MP",
+                "-MMD",
+                "-MF",
+                "-DXPRJ_default=default",
+                "-no-legacy-libc",
+                "-mdfp=\"C:/Users/vladimir/.mchp_packs/Microchip/PIC32MX_DFP/1.5.259\""
+            ]
+        }
+    ],
+    "version": 4
+}

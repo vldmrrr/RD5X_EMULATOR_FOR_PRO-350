@@ -1,8 +1,7 @@
 {
   "makefile.extensionOutputFolder": "./.vscode",
   "C_Cpp.default.includePath": [
-    "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include",
-    "firmware/src/config/default"
+    "${workspaceFolder}/firmware/src/**"
   ],
   "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
   "files.associations": {
@@ -31,5 +30,11 @@
     "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include",
     "C:/Program Files/Microchip/xc32/v4.00/pic32mx/include/musl",
     "C:/Program Files/Microchip/xc32/v4.00/lib/gcc/pic32mx/**"
-  ]
+  ],
+  "editor.inlineSuggest.enabled": false,
+  "editor.quickSuggestions": {
+    "other": "off",
+    "comments": "off",
+    "strings": "off"
+  }
 }

@@ -3615,7 +3615,7 @@ static FRESULT mount_volume (	/* FR_OK(0): successful, !=0: an error occurred */
 /* Check if the file/directory object is valid or not                    */
 /*-----------------------------------------------------------------------*/
 
-static FRESULT validate (	/* Returns FR_OK or FR_INVALID_OBJECT */
+ static FRESULT validate (	/* Returns FR_OK or FR_INVALID_OBJECT */
 	FFOBJID* obj,			/* Pointer to the FFOBJID, the 1st member in the FIL/DIR object, to check validity */
 	FATFS** rfs				/* Pointer to pointer to the owner filesystem object to return */
 )

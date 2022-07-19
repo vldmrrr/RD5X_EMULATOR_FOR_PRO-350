@@ -48,20 +48,20 @@ files:
   security: NON_SECURE
   type: SOURCE
   userChecksum: 9E153A6D4F8E0EA1F6901BAED7DD80FD
-- generatedChecksum: 9B4EF37068FF3B4A7F748667DA2F4DB1
+- generatedChecksum: 516A4FE5F9CD0363EC0EB580DDB57CC5
   logicalPath: config/default
   name: initialization.c
   physicalPath: ''
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 9B4EF37068FF3B4A7F748667DA2F4DB1
-- generatedChecksum: 7C6FF56BDFABB64368804130FA78E5A0
+  userChecksum: 210D55467BFFFC649974F79A27E0DECE
+- generatedChecksum: 4D959708ACF3BBB4A4F22C276EAF70AD
   logicalPath: config/default
   name: interrupts.c
   physicalPath: ''
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 7C6FF56BDFABB64368804130FA78E5A0
+  userChecksum: 9898CA72CA51976AFB367AAA3AC9AEC1
 - generatedChecksum: null
   logicalPath: ''
   name: main.c
@@ -83,27 +83,83 @@ files:
   security: NON_SECURE
   type: SOURCE
   userChecksum: 2FEFEA0D4E94F5A5F3D76BAEC3D602E5
-- generatedChecksum: AF1A53FD6D40C47CB6D61DA7E2CAB483
+- generatedChecksum: 17CB0EBA375FCD2D8ADF7700AB1863FF
   logicalPath: config/default/peripheral/evic
   name: plib_evic.c
   physicalPath: peripheral/evic
   security: NON_SECURE
   type: SOURCE
-  userChecksum: AF1A53FD6D40C47CB6D61DA7E2CAB483
-- generatedChecksum: 2C47CD60515BD9D496D192C83901BDCE
+  userChecksum: 17CB0EBA375FCD2D8ADF7700AB1863FF
+- generatedChecksum: 41814691ED9520152CD144C5454262DD
   logicalPath: config/default/peripheral/gpio
   name: plib_gpio.c
   physicalPath: peripheral/gpio
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 2C47CD60515BD9D496D192C83901BDCE
-- generatedChecksum: 64197587C5A197FD05E94AB039A2DD66
+  userChecksum: 41814691ED9520152CD144C5454262DD
+- generatedChecksum: EF40C5602A50A4D0B671D9FD5A92E72E
+  logicalPath: config/default/peripheral/uart
+  name: plib_uart1.c
+  physicalPath: peripheral/uart
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: EF40C5602A50A4D0B671D9FD5A92E72E
+- generatedChecksum: 20C22A19D5DC74DEBFC4CCCA83B6F603
+  logicalPath: config/default/system/console
+  name: sys_console.c
+  physicalPath: system/console/src
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: 20C22A19D5DC74DEBFC4CCCA83B6F603
+- generatedChecksum: 5BA0902794A8669B3FE37E8A8BEE9D65
+  logicalPath: config/default/system/console
+  name: sys_console_local.h
+  physicalPath: system/console/src
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: 5BA0902794A8669B3FE37E8A8BEE9D65
+- generatedChecksum: CA5E9B63704372DE5FBC0BDC006B16C3
+  logicalPath: config/default/system/console
+  name: sys_console_uart.c
+  physicalPath: system/console/src
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: CA5E9B63704372DE5FBC0BDC006B16C3
+- generatedChecksum: 767495C6A39617A915D8107093DC1A72
+  logicalPath: config/default/system/console
+  name: sys_console_uart.h
+  physicalPath: system/console/src
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: 767495C6A39617A915D8107093DC1A72
+- generatedChecksum: 5D10B9438117B64220180660AB022150
+  logicalPath: config/default/system/console
+  name: sys_console_uart_definitions.h
+  physicalPath: system/console/src
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: 5D10B9438117B64220180660AB022150
+- generatedChecksum: 68C0D499B9EDAA3BFD7E131A48514212
+  logicalPath: config/default/system/debug
+  name: sys_debug.c
+  physicalPath: system/debug/src
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: 68C0D499B9EDAA3BFD7E131A48514212
+- generatedChecksum: B8C6C7356AC7841AECC7C779040F745C
+  logicalPath: config/default/system/debug
+  name: sys_debug_local.h
+  physicalPath: system/debug/src
+  security: NON_SECURE
+  type: SOURCE
+  userChecksum: B8C6C7356AC7841AECC7C779040F745C
+- generatedChecksum: 9C4B71FF77DB16BC8FF11B79F8FB7EB1
   logicalPath: config/default/system/fs
   name: sys_fs.c
   physicalPath: system/fs/src
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 64197587C5A197FD05E94AB039A2DD66
+  userChecksum: 9C4B71FF77DB16BC8FF11B79F8FB7EB1
 - generatedChecksum: 1F79CD9E378D98E657FCEB0552B2B659
   logicalPath: config/default/system/fs
   name: sys_fs_fat_interface.c
@@ -111,13 +167,13 @@ files:
   security: NON_SECURE
   type: SOURCE
   userChecksum: 1F79CD9E378D98E657FCEB0552B2B659
-- generatedChecksum: 8A608E11F4981AA9CC52EA5EF5C76F4A
+- generatedChecksum: 56CAB83269AF585DADCDC124D19DCA5A
   logicalPath: config/default/system/fs
   name: sys_fs_media_manager.c
   physicalPath: system/fs/src
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 8A608E11F4981AA9CC52EA5EF5C76F4A
+  userChecksum: 56CAB83269AF585DADCDC124D19DCA5A
 - generatedChecksum: C95CE0ABB86E6B11CF77E8891D294510
   logicalPath: config/default/system/int
   name: sys_int.c
@@ -159,14 +215,14 @@ files:
   physicalPath: usb/src
   security: NON_SECURE
   type: SOURCE
-  userChecksum: A44FA6E3F312CC5DB91590DBEC0A7895
+  userChecksum: 3BE4503BAF996639E63A2A7705B0578F
 - generatedChecksum: 6FB71B015A2C3B84C8913F9C8A53532F
   logicalPath: config/default/usb/src
   name: usb_host_scsi.c
   physicalPath: usb/src
   security: NON_SECURE
   type: SOURCE
-  userChecksum: 6FB71B015A2C3B84C8913F9C8A53532F
+  userChecksum: 5829FE714665ACE5C790AE0FB4F12E3D
 - generatedChecksum: 7806B30ECAE0D18D08CD583D8775530D
   logicalPath: config/default/stdio
   name: xc32_monitor.c
@@ -181,20 +237,20 @@ files:
   security: NON_SECURE
   type: HEADER
   userChecksum: null
-- generatedChecksum: 38916790BBA0F5B97731E520A8B10928
+- generatedChecksum: 0A86C896A9765CEA2B3AA50BAB037D25
   logicalPath: config/default
   name: configuration.h
   physicalPath: ''
   security: NON_SECURE
   type: HEADER
-  userChecksum: 38916790BBA0F5B97731E520A8B10928
-- generatedChecksum: 8ACA7D96A482FD7232214D8FA59EB26C
+  userChecksum: 0A86C896A9765CEA2B3AA50BAB037D25
+- generatedChecksum: B4E22A3ED70610D3B3795DFE7A4284FA
   logicalPath: config/default
   name: definitions.h
   physicalPath: ''
   security: NON_SECURE
   type: HEADER
-  userChecksum: 8ACA7D96A482FD7232214D8FA59EB26C
+  userChecksum: 0D4CA09882DA9AB79BA6BFAFC64C2B7E
 - generatedChecksum: E189C26B2269F8DE46033CCD0621958D
   logicalPath: config/default
   name: device.h
@@ -321,13 +377,27 @@ files:
   security: NON_SECURE
   type: HEADER
   userChecksum: 37436424B3DFA2A4948662880FFD2E29
-- generatedChecksum: BF9533FC91A4C9E27F598FC34F3B6076
+- generatedChecksum: 39E350FF0CC42AEB8039309B18221004
   logicalPath: config/default/peripheral/gpio
   name: plib_gpio.h
   physicalPath: peripheral/gpio
   security: NON_SECURE
   type: HEADER
-  userChecksum: BF9533FC91A4C9E27F598FC34F3B6076
+  userChecksum: BF01A8A2E14F90BBE3FC44DA66D2DC81
+- generatedChecksum: 4E78B3E99D9AF48AEBE4564C0EE8F70D
+  logicalPath: config/default/peripheral/uart
+  name: plib_uart1.h
+  physicalPath: peripheral/uart
+  security: NON_SECURE
+  type: HEADER
+  userChecksum: 4E78B3E99D9AF48AEBE4564C0EE8F70D
+- generatedChecksum: 91611515A95D92B82B7F4064C16D122B
+  logicalPath: config/default/peripheral/uart
+  name: plib_uart_common.h
+  physicalPath: peripheral/uart
+  security: NON_SECURE
+  type: HEADER
+  userChecksum: 91611515A95D92B82B7F4064C16D122B
 - generatedChecksum: 7AFFC4178335897ED9D5804CAB531BCF
   logicalPath: config/default/driver/usb/usbfs/src
   name: plib_usbfs.h
@@ -349,6 +419,13 @@ files:
   security: NON_SECURE
   type: HEADER
   userChecksum: 9E71D345C6F5A276C502502C87316EA5
+- generatedChecksum: 91CB36F6EC29DAA7C584282A875E5CBA
+  logicalPath: config/default/system/console
+  name: sys_console.h
+  physicalPath: system/console
+  security: NON_SECURE
+  type: HEADER
+  userChecksum: 91CB36F6EC29DAA7C584282A875E5CBA
 - generatedChecksum: 6972608768DDBE6E37A2D81B83DF490B
   logicalPath: config/default/system/debug
   name: sys_debug.h

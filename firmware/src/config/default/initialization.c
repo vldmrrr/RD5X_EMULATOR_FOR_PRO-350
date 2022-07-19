@@ -68,7 +68,7 @@
 #pragma config FPBDIV =     DIV_1
 #pragma config FSOSCEN =    OFF
 #pragma config IESO =       ON
-#pragma config POSCMOD =    OFF
+#pragma config POSCMOD =    HS
 #pragma config OSCIOFNC =   OFF
 #pragma config FCKSM =      CSDCMD
 #pragma config WDTPS =      PS1048576
@@ -79,7 +79,7 @@
 #pragma config FPLLIDIV =   DIV_2
 #pragma config FPLLMUL =    MUL_20
 #pragma config FPLLODIV =   DIV_1
-#pragma config UPLLEN =     OFF
+#pragma config UPLLEN =     ON
 #pragma config UPLLIDIV =   DIV_2
 
 /*** DEVCFG3 ***/
@@ -116,11 +116,16 @@ SYSTEM_OBJECTS sysObj;
 // *****************************************************************************
 // <editor-fold defaultstate="collapsed" desc="File System Initialization Data">
 
-
 const SYS_FS_MEDIA_MOUNT_DATA sysfsMountTable[SYS_FS_VOLUME_NUMBER] =
 {
-    {NULL}
+    {
+        .mountName = SYS_FS_MEDIA_IDX0_MOUNT_NAME_VOLUME_IDX0,
+        .devName   = SYS_FS_MEDIA_IDX0_DEVICE_NAME_VOLUME_IDX0,
+        .mediaType = SYS_FS_MEDIA_TYPE_IDX0,
+        .fsType   = SYS_FS_TYPE_IDX0
+    },
 };
+
 
 const SYS_FS_FUNCTIONS FatFsFunctions =
 {
@@ -179,26 +184,6 @@ const SYS_FS_REGISTRATION_TABLE sysFSInit [ SYS_FS_MAX_FILE_SYSTEM_TYPE ] =
  
 uint8_t __attribute__((aligned(512))) endPointTable1[DRV_USBFS_ENDPOINTS_NUMBER * 32];
 
-void DRV_USB_VBUSPowerEnable(uint8_t port, bool enable)
-{
-	/* Note: USB Host applications should have a way for Enabling/Disabling the 
-	   VBUS. Applications can use a GPIO to turn VBUS on/off through a switch. 
-	   In MHC Pin Settings select the pin used as VBUS Power Enable as output and 
-	   name it to "VBUS_AH". If you a see a build error from this function either 
-	   you have not configured the VBUS Power Enable in MHC pin settings or the 
-	   Pin name entered in MHC is not "VBUS_AH". */ 
-    if (enable == true)
-	{
-		/* Enable the VBUS */
-		VBUS_AH_PowerEnable();
-	}
-	else
-	{
-		/* Disable the VBUS */
-		VBUS_AH_PowerDisable();
-	}
-}
-
 const DRV_USBFS_INIT drvUSBFSInit =
 {
 	 /* Assign the endpoint table */
@@ -225,7 +210,7 @@ const DRV_USBFS_INIT drvUSBFSInit =
     .usbID = USB_ID_1,
 	
 	/* USB Host Power Enable. USB Driver uses this function to Enable the VBUS */ 
-	.portPowerEnable = DRV_USB_VBUSPowerEnable,
+	//.portPowerEnable = DRV_USB_VBUSPowerEnable,
 	
     /* Root hub available current in milliamperes */
     .rootHubAvailableCurrent = 500,
@@ -244,6 +229,15 @@ const DRV_USBFS_INIT drvUSBFSInit =
 // Section: System Initialization
 // *****************************************************************************
 // *****************************************************************************
+
+const SYS_DEBUG_INIT debugInit =
+{
+    .moduleInit = {0},
+    .errorLevel = SYS_DEBUG_GLOBAL_ERROR_LEVEL,
+    .consoleIndex = 0,
+};
+
+
 // <editor-fold defaultstate="collapsed" desc="SYS_TIME Initialization Data">
 
 const SYS_TIME_PLIB_INTERFACE sysTimePlibAPI = {
@@ -263,6 +257,38 @@ const SYS_TIME_INIT sysTimeInitData =
 };
 
 // </editor-fold>
+// <editor-fold defaultstate="collapsed" desc="SYS_CONSOLE Instance 0 Initialization Data">
+
+
+/* Declared in console device implementation (sys_console_uart.c) */
+extern const SYS_CONSOLE_DEV_DESC sysConsoleUARTDevDesc;
+
+const SYS_CONSOLE_UART_PLIB_INTERFACE sysConsole0UARTPlibAPI =
+{
+    .read = (SYS_CONSOLE_UART_PLIB_READ)UART1_Read,
+	.readCountGet = (SYS_CONSOLE_UART_PLIB_READ_COUNT_GET)UART1_ReadCountGet,
+	.readFreeBufferCountGet = (SYS_CONSOLE_UART_PLIB_READ_FREE_BUFFFER_COUNT_GET)UART1_ReadFreeBufferCountGet,
+    .write = (SYS_CONSOLE_UART_PLIB_WRITE)UART1_Write,
+	.writeCountGet = (SYS_CONSOLE_UART_PLIB_WRITE_COUNT_GET)UART1_WriteCountGet,
+	.writeFreeBufferCountGet = (SYS_CONSOLE_UART_PLIB_WRITE_FREE_BUFFER_COUNT_GET)UART1_WriteFreeBufferCountGet,
+};
+
+const SYS_CONSOLE_UART_INIT_DATA sysConsole0UARTInitData =
+{
+    .uartPLIB = &sysConsole0UARTPlibAPI,    
+};
+
+const SYS_CONSOLE_INIT sysConsole0Init =
+{
+    .deviceInitData = (const void*)&sysConsole0UARTInitData,
+    .consDevDesc = &sysConsoleUARTDevDesc,
+    .deviceIndex = 0,
+};
+
+
+
+// </editor-fold>
+
 
 
 
@@ -311,9 +337,16 @@ void SYS_Initialize ( void* data )
 	GPIO_Initialize();
 
     CORETIMER_Initialize();
+	UART1_Initialize();
+
+
+
+    sysObj.sysDebug = SYS_DEBUG_Initialize(SYS_DEBUG_INDEX_0, (SYS_MODULE_INIT*)&debugInit);
 
 
     sysObj.sysTime = SYS_TIME_Initialize(SYS_TIME_INDEX_0, (SYS_MODULE_INIT *)&sysTimeInitData);
+    sysObj.sysConsole0 = SYS_CONSOLE_Initialize(SYS_CONSOLE_INDEX_0, (SYS_MODULE_INIT *)&sysConsole0Init);
+
 
 	/* Initialize the USB Host layer */
     sysObj.usbHostObject0 = USB_HOST_Initialize (( SYS_MODULE_INIT *)& usbHostInitData );	

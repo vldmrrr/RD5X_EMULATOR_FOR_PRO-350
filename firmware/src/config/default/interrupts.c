@@ -53,7 +53,7 @@
 #include "interrupts.h"
 #include "definitions.h"
 
-
+#pragma GCC optimize ("O0")
 // *****************************************************************************
 // *****************************************************************************
 // Section: System Interrupt Vector Functions
@@ -62,6 +62,7 @@
 
 
 void CORE_TIMER_InterruptHandler( void );
+void UART_1_InterruptHandler( void );
 void CHANGE_NOTICE_InterruptHandler( void );
 void DRV_USBFS_USB_Handler( void );
 
@@ -73,12 +74,126 @@ void __ISR(_CORE_TIMER_VECTOR, ipl1SOFT) CORE_TIMER_Handler (void)
     CORE_TIMER_InterruptHandler();
 }
 
-void __ISR(_CHANGE_NOTICE_VECTOR, ipl1SOFT) CHANGE_NOTICE_Handler (void)
+void __ISR(_UART_1_VECTOR, ipl1SOFT) UART_1_Handler (void)
 {
-    CHANGE_NOTICE_InterruptHandler();
+    UART_1_InterruptHandler();
 }
 
-void __ISR(_USB_1_VECTOR, ipl1SOFT) USB_1_Handler (void)
+void __ISR(_CHANGE_NOTICE_VECTOR, ipl7SRS) CHANGE_NOTICE_Handler (void)
+//void __attribute__((vector(_CHANGE_NOTICE_VECTOR))) __attribute__((naked)) CHANGE_NOTICE_Handler (void)
+{
+	uint16_t portg = PORTG;
+    CTI_STATE cti_state = CTI_STATE_IDLE;
+
+    if (!CTI_SS) {
+        uint16_t addr = portg>>12;
+        if (addr > REG_ADDR_RANGE)
+            goto exit;
+        if (addr != REG_STATUS_ADDR && (*reg_R_STAT & STATUS_BUSY_MASK))
+            goto exit;
+        cti_state = (CTI_WR)?CTI_STATE_WR:CTI_STATE_RD;
+        if (cti_state == CTI_STATE_RD) {
+            PORTD = ~r_regs[addr];
+#ifdef TRACE_CTI
+            if (log_pipe_len < (LOG_PIPE_LEN-1))
+                log_pipe[(log_pipe_head+log_pipe_len++)%LOG_PIPE_LEN] = (addr<<16) | r_regs[addr];
+            else
+                log_pipe[(log_pipe_head+log_pipe_len)%LOG_PIPE_LEN] = 0xffffffff;
+#endif
+            if (addr == REG_DATA && DRQ_PENDING) {
+                DRQ_CLEAR();
+                if (sector_buffer_idx==255) {
+                    OPEND_SET();
+                    LED0G_Set();
+                } else {
+                    *reg_R_DATA = sector_buffer[++sector_buffer_idx];
+                    DRQ_SET();
+                }
+            } else
+            if (OPEND_PENDING && addr == REG_STA2_ADDR)
+                OPEND_CLEAR();
+            else
+            if (addr == REG_STATUS_ADDR) {
+                if ((*reg_W_CMD&0xff) == CMD_RESTORE) {
+                    OPEND_SET();
+                    // DRQ_CLEAR();
+                    *reg_W_CMD &= 0xff00;
+                }
+            }
+            cti_state = CTI_STATE_RD_DONE;
+            do {
+                portg = PORTG;
+            } while (CTI_DS);
+            TRISDCLR = 0xffff;
+        } else {  // cti_state == CTI_STATE_WR
+            do {
+                portg = PORTG;
+            } while (CTI_DS);
+            uint16_t data =  ~PORTD;
+            if (addr!=0) {
+                uint16_t wmsk = regs_wmsk[addr];
+                r_regs[addr] = w_regs[addr] = ((r_regs[addr]) & ~(wmsk)) | (data & (wmsk));
+            }
+#ifdef TRACE_CTI
+            if (log_pipe_len < (LOG_PIPE_LEN-1))
+                log_pipe[(log_pipe_head+log_pipe_len++)%LOG_PIPE_LEN] = 0x80000000 | (addr<<16) | data;
+            else
+                log_pipe[(log_pipe_head+log_pipe_len)%LOG_PIPE_LEN] = 0xffffffff;
+#endif
+            if (DRQ_PENDING && addr == REG_STATUS_ADDR)
+                DRQ_CLEAR();
+            else
+            if (addr == REG_STA2_ADDR) {
+                ERR_CLEAR();
+                DRQ_CLEAR();
+                OPEND_CLEAR();
+                if ((data&0xff) == CMD_RESTORE) {
+                    BUSY_SET();
+                }
+            } else
+            if (addr == REG_DATA && DRQ_PENDING) {
+                sector_buffer[sector_buffer_idx] = *reg_W_DATA;
+                DRQ_CLEAR();
+                if (sector_buffer_idx==255) {
+                    BUSY_SET();
+                } else {
+                    ++sector_buffer_idx;
+                    DRQ_SET();
+                }
+            }
+            cti_state = CTI_STATE_WR_DONE;
+        }
+        RPLY_Clear();
+        int i=0;
+        do {
+            i++;
+            portg = PORTG;            
+        } while (!CTI_DS && i<1);
+        if (cti_state == CTI_STATE_RD_DONE) {
+            TRISDSET = 0xffff;
+            RPLY_Set();
+            cti_state = CTI_STATE_IDLE;
+        } else 
+        if (cti_state == CTI_STATE_WR_DONE) {
+            RPLY_Set();
+            cti_state = CTI_STATE_IDLE;
+            if (RESET_PENDING) {
+                appData.state = APP_STATE_RESET;
+                *reg_W_INIT &= ~STATUS_RESET_MASK;
+            }
+        }
+    } else
+    if (!CTI_INIT) {
+        appData.state = APP_STATE_RESET;
+        TRISDSET = 0xffff;
+    }
+
+exit:
+    IFS1CLR = _IFS1_CNIF_MASK;
+    //CHANGE_NOTICE_InterruptHandler();
+}
+
+void __ISR(_USB_1_VECTOR, ipl4SOFT) USB_1_Handler (void)
 {
     DRV_USBFS_USB_Handler();
 }
